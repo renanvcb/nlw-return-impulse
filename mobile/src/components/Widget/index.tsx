@@ -24,6 +24,15 @@ function Widget() {
     bottomSheetRef.current?.expand();
   }
 
+  function handleRestartFeedback() {
+    setFeedbackType(null);
+    setIsFeedbackSent(false);
+  }
+
+  function handleFeedbackSent() {
+    setIsFeedbackSent(true);
+  }
+
   return (
     <>
       <TouchableOpacity
@@ -44,13 +53,17 @@ function Widget() {
       >
         {
           isFeedbackSent ?
-            <Success />
+            <Success
+              onSendAnotherFeedback={handleRestartFeedback}
+            />
             :
             <>
               {
                 feedbackType ?
                   <Form
                     feedbackType={feedbackType}
+                    onFeedbackCanceled={handleRestartFeedback}
+                    onFeedbackSent={handleFeedbackSent}
                   /> :
                   <Options onFeedbackTypeChanged={setFeedbackType} />
               }
